@@ -1,6 +1,6 @@
 # Medical Test Recommender
 
-![Medical Test Recommender](link_to_your_image)
+![Medical Test Recommender](https://github.com/John-Alex07/Portfolio/blob/master/static/img/portfolio/portfolio-2.jpg)
 
 This Streamlit app provides medical test recommendations based on patient symptoms. The application utilizes a dataset of diseases, symptoms, and associated information to offer diagnostic insights. Users can interact with the app by inputting symptoms and exploring further survey options for a detailed diagnosis.
 
@@ -189,6 +189,7 @@ if nxt_report:
   ``` bash
   streamlit run app.py
   ```
+- Interact with the app through the provided widgets for  a medical diagnosis!
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
