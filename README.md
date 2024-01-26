@@ -9,9 +9,8 @@ This Streamlit app provides medical test recommendations based on patient sympto
 - [Introduction](#introduction)
 - [Features](#features)
 - [Dependencies](#dependencies)
-- [How to Use](#how-to-use)
 - [Code Explanation](#code-explanation)
-- [Credits](#credits)
+- [How to Use](#how-to-use)
 - [License](#license)
 
 ## Introduction
@@ -107,6 +106,7 @@ Stemming involves reducing words to their root or base form. This process is cru
     stemming_func()
 ```
 ### 2. Patient Symptoms Input and Disease Diagnostics
+In this part, the user inputs their symptoms, which are then tokenized and stemmed for compatibility with the dataset. The app performs disease diagnostics by matching the patient's symptoms with the preprocessed dataset. The results are displayed in a DataFrame, providing users with information about potential diseases based on their symptoms.
 ```python
 # Input for patient symptoms
 symptoms_patient = st.text_input("State Patient Symptoms : ")
@@ -135,7 +135,65 @@ disease_report = pd.DataFrame(disease_report)
 # Drop unnecessary columns if present
 if 'symptoms' in disease_report.columns:
     disease_report = disease_report.drop(columns=['symptoms', 'overview'])
-
-# Display the diagnostic report
-st.dataframe(disease_report)
 ```
+### 3. Further Survey
+This section allows users to initiate a further survey for a more detailed diagnosis. It involves loading additional survey data and enabling users to select symptoms of interest. The selected symptoms are used to filter the dataset, and the results are displayed using Streamlit columns and metrics, providing a clearer view of possible diseases.
+```python
+# Checkbox for initiating further survey
+nxt_report = st.checkbox("For further Survey")
+
+if nxt_report:
+    # Load additional data for further survey
+    df = pd.read_csv("./Training.csv")
+
+    # Get a list of survey questions
+    question_set = list(df.columns)
+    question_set.pop(133)
+    question_set.pop(132)
+
+    # Allow user to select symptoms for the survey
+    symptom_q = st.multiselect("SELECT SYMPTOMS : ", question_set)
+
+    if len(symptom_q) > 0:
+        # Create a DataFrame for the selected symptoms
+        train = pd.DataFrame(np.zeros((1, 132)), columns=question_set, index=[0])
+
+        for i in symptom_q:
+            train[i] = 1
+
+        # Merge with the main dataset based on selected symptoms
+        final_q_report = pd.merge(train, df, how='inner', on=symptom_q)
+        report = set(final_q_report['prognosis'])
+
+        # Display survey results using Streamlit columns and metrics
+        count_report = 1
+        c1, c2 = st.columns(2)
+        for i in report:
+            c1.metric(label="", value=count_report)
+            c2.metric(label="POSSIBLE :", value=i)
+            count_report += 1
+```
+## How to use
+
+- Clone the repository:
+
+  ```bash
+  git clone https://github.com/John-Alex07/medical-test-recommender.git
+  cd medical-test-recommender
+  ```
+- Install Dependencies
+  ```bash
+  pip install -r requirements.txt
+  ```
+- Run the App
+  ``` bash
+  streamlit run app.py
+  ```
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+[MIT License](https://opensource.org/licenses/MIT)
+
+ 
+
