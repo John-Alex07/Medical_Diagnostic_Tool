@@ -190,6 +190,7 @@ if nxt_report:
   streamlit run app.py
   ```
 - Interact with the app through the provided widgets for  a medical diagnosis!
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
