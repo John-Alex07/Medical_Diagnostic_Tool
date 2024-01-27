@@ -187,7 +187,7 @@ if nxt_report:
   ```
 - Run the App
   ``` bash
-  streamlit run app.py
+  streamlit run Medical_Recommender_Local.py
   ```
 - Interact with the app through the provided widgets for  a medical diagnosis!
 
